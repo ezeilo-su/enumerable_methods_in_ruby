@@ -1,24 +1,26 @@
 module Enumerable
   def my_each
-    return enum_for if block_given? == false
+    return to_enum(:my_each) unless block_given?
 
-    for i in 0...self.length
-      yield(self[i])
+    for i in self
+      yield i
     end
     self
   end
 
   def my_each_with_index
-    return enum_for if block_given? == false
+    return to_enum(:my_each_with_index) unless block_given?
 
-    for i in 0...self.length
-      yield(self[i], i)
+    ind = 0
+    for i in self
+      yield(i, ind)
+      ind += 1
     end
     self
   end
 
   def my_select
-    return enum_for if block_given? == false
+    return to_enum(:my_select) unless block_given?
 
     new_arr = []
     my_each do |n|
@@ -26,7 +28,24 @@ module Enumerable
     end
     new_arr
   end
+
+  def my_any?
+    return to_enum(:my_any?) unless block_given?
+
+    any = false
+    my_each do |n|
+      any = yield(n)
+      break if any
+    end
+    any
+  end
 end
 
-even_num_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_select { |x| x % 2 == 0 }
-puts even_num_arr.to_s
+result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
+p result
+
+result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_each_with_index { |elm, ind| puts "index_#{ind}: #{elm}" }
+p result
+
+result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
+p result
