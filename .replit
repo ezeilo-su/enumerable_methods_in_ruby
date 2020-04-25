@@ -1,0 +1,2 @@
+language = "ruby"
+run = "enumerable_methods.rb"
