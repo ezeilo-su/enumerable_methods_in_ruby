@@ -14,7 +14,7 @@
 
 [![Run on Repl.it](https://repl.it/badge/github/ezeilo-su/enumerable_methods_in_ruby)](https://repl.it/github/ezeilo-su/enumerable_methods_in_ruby)
 
-# Code usage goes here!
+### Code usage goes here!
 
 `puts "\ntesting my_each method...\n"`  
 `result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })`  
