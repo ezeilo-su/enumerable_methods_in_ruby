@@ -29,6 +29,10 @@ module Enumerable
     new_arr
   end
 
+  def my_all?
+
+  end
+
   def my_any?
     return true unless block_given?
 
