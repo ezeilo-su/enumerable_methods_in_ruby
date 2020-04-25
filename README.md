@@ -1,24 +1,18 @@
 ## Enumerable Methods Implementation In Ruby Language
----
 
 > This project implements enumerable methods in Ruby. Return values of those methods are those returned by the default ruby enumerable methods. Code usage has also been provided in this document in the "Code usage goes here" section.
 
 > The project description can be found [here](https://github.com/TheOdinProject/curriculum/blob/master/ruby_programming/archive/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods).
----
 
 ## Project Screenshots here:
----
 
 ## Built With
 
 - Ruby Language
----
 
 ## Live Demo
 
 [![Run on Repl.it](https://repl.it/badge/github/ezeilo-su/enumerable_methods_in_ruby)](https://repl.it/github/ezeilo-su/enumerable_methods_in_ruby)
-
----
 
 ### Code usage goes here:
 
@@ -39,8 +33,6 @@ p result
 result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
 p result
 ```
-
----
 
 ## Author
 
