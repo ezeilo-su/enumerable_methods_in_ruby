@@ -18,12 +18,10 @@
 
 ```Ruby
 # Test my_each method
-
 result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
 p result
 
 # Test my_each_with_index method
-
 result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_each_with_index { |elm, ind| puts "index*#{ind}: #{elm}" }
 p result
 
