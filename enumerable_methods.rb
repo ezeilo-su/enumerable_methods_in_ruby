@@ -30,7 +30,7 @@ module Enumerable
   end
 
   def my_any?
-    return to_enum(:my_any?) unless block_given?
+    return true unless block_given?
 
     any = false
     my_each do |n|
@@ -40,12 +40,3 @@ module Enumerable
     any
   end
 end
-
-result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
-p result
-
-result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_each_with_index { |elm, ind| puts "index_#{ind}: #{elm}" }
-p result
-
-result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
-p result
