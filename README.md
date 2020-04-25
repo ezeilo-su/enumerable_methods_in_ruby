@@ -10,6 +10,10 @@
 
 - Ruby Language
 
+## Live Demo
+
+[![Run on Repl.it](https://repl.it/badge/github/ezeilo-su/enumerable_methods_in_ruby)](https://repl.it/github/ezeilo-su/enumerable_methods_in_ruby)
+
 # Code usage goes here!
 
 puts "\ntesting my_each method...\n"
