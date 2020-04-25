@@ -2,7 +2,7 @@
 
 > This project implements enumerable methods in Ruby. Return values of those methods are those returned by the default ruby enumerable methods. Code usage has also been provided in this document in the "Code usage goes here" section.
 
-> The project's requirements can be found here: [PROJECT: BUBBLE SORT](https://github.com/TheOdinProject/curriculum/blob/master/ruby_programming/archive/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods)
+> The project's requirements can be found here: [PROJECT: Enumerable Methods](https://github.com/TheOdinProject/curriculum/blob/master/ruby_programming/archive/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods)
 
 ## Project Screenshots here:
 
