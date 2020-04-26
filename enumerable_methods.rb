@@ -73,12 +73,26 @@ module Enumerable
     counter
   end
 
+=begin
   def my_map
     return to_enum(:my_map) unless block_given?
 
     new_arr = []
     my_each do |n|
       new_arr << yield(n)
+    end
+    new_arr
+  end
+=end
+
+  # my_map modified to accept either block or proc (i.e., a named block)
+
+  def my_map(&block)
+    return to_enum(:my_map) unless block_given?
+
+    new_arr = []
+    my_each do |n|
+      new_arr << block.call(n)
     end
     new_arr
   end
@@ -92,36 +106,51 @@ module Enumerable
   end
 end
 
+def multiply_els(arr)
+  arr.my_inject(1) { |result_memo, n| result_memo * n }
+end
+
 # CODE USAGE GOES HERE!
-=begin
-puts "\ntesting my_each method...\n"
-result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
-p result
 
-puts "\ntesting my_each_with_index method...\n"
-result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_each_with_index { |elm, ind| puts "index_#{ind}: #{elm}" }
-p result
+# puts "\ntesting my_each method...\n"
+# result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
+# p result
 
-puts "\ntesting my_select method...\n"
-result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_select { |elm| elm % 2 == 0 }
-p result
+# puts "\ntesting my_each_with_index method...\n"
+# result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_each_with_index { |elm, ind| puts "index_#{ind}: #{elm}" }
+# p result
 
-puts "\ntesting my_any? method...\n"
-result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
-p result
+# puts "\ntesting my_select method...\n"
+# result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_select { |elm| elm % 2 == 0 }
+# p result
 
-result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
-p result
+# puts "\ntesting my_all? method...\n"
+# result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
+# p result
 
-result = [1, 2, 3, 4, 5, 10].any? { |x| x > 10 }
-p result
+# puts "\ntesting my_any? method...\n"
+# result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
+# p result
 
-result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
-p result
+# puts "\ntesting my_any? method...\n"
+# result = [1, 2, 3, 4, 5, 10].any? { |x| x > 10 }
+# p result
 
-p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
+# puts "\ntesting my_none? method...\n"
+# result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
+# p result
 
-p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
+# puts "\ntesting my_count method...\n"
+# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
 
-p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
-=end
+# puts "\ntesting my_map method...\n"
+# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
+
+# # my_map using proc instead of block
+# my_proc = proc { |n| n * 2 }
+# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map(&my_proc)
+
+# puts "\ntesting my_inject method...\n"
+# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
+
+# p multiply_els([2, 4, 5])
