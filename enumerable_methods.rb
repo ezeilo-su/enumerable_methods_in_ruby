@@ -1,4 +1,6 @@
 module Enumerable
+  rubocop: disable
+
   def my_each
     return to_enum(:my_each) unless block_given?
 
@@ -17,6 +19,7 @@ module Enumerable
     end
   end
 
+  rubocop: enable
   def my_select
     return to_enum(:my_select) unless block_given?
 
