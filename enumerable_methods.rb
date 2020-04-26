@@ -46,6 +46,16 @@ module Enumerable
     end
     false
   end
+
+  def my_none?
+    return true if self.class == Array && count.zero?
+    return false if !count.zero? && !block_given?
+
+    my_each do |n|
+      return false if yield(n)
+    end
+    true
+  end
 end
 
 # CODE USAGE GOES HERE!
@@ -70,5 +80,8 @@ result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
 p result
 
 result = [1, 2, 3, 4, 5, 10].any? { |x| x > 10 }
+p result
+
+result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
 p result
 =end
