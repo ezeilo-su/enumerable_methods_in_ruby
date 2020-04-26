@@ -56,6 +56,31 @@ module Enumerable
     end
     true
   end
+
+  def my_count(arg = nil)
+    counter = 0
+    if !arg.nil?
+      my_each do |n|
+        counter += 1 if n == arg
+      end
+    elsif block_given?
+      my_each do |n|
+        counter += 1 if yield(n)
+      end
+    else
+      counter = self.length
+    end
+    counter
+  end
+
+  def my_map
+    return to_enum(:my_map) unless block_given?
+    new_arr = []
+    my_each do |n|
+      new_arr << yield(n)
+    end
+    new_arr
+  end
 end
 
 # CODE USAGE GOES HERE!
@@ -84,4 +109,8 @@ p result
 
 result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
 p result
+
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
+
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
 =end
