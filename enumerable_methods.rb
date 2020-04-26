@@ -5,7 +5,6 @@ module Enumerable
     for i in self
       yield i
     end
-    self
   end
 
   def my_each_with_index
@@ -16,7 +15,6 @@ module Enumerable
       yield(i, ind)
       ind += 1
     end
-    self
   end
 
   def my_select
@@ -30,23 +28,28 @@ module Enumerable
   end
 
   def my_all?
+    # return true if empty array is passed, regardless of block_given
+    return true if (self.class == Array && count.zero?) || (!count.zero? && !block_given?)
 
+    my_each do |n|
+      return false unless yield(n)
+    end
+    true
   end
 
   def my_any?
-    return true unless block_given?
+    return false if self.class == Array && count.zero?
+    return true if !count.zero? && !block_given?
 
-    any = false
     my_each do |n|
-      any = yield(n)
-      break if any
+      return true if yield(n)
     end
-    any
+    false
   end
 end
 
 # CODE USAGE GOES HERE!
-
+=begin
 puts "\ntesting my_each method...\n"
 result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
 p result
@@ -62,3 +65,10 @@ p result
 puts "\ntesting my_any? method...\n"
 result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
 p result
+
+result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
+p result
+
+result = [1, 2, 3, 4, 5, 10].any? { |x| x > 10 }
+p result
+=end
