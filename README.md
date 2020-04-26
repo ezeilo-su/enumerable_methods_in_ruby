@@ -29,9 +29,32 @@ p result
 result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_select { |elm| elm % 2 == 0 }
 p result
 
+# Test my_all? method
+result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
+p result
+
 # Test my_any? method
 result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
 p result
+
+# Test my_none? method
+result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
+p result
+
+# Test my_count method
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
+
+#Test my_map method
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
+
+# Test my_map using proc instead of block
+my_proc = proc { |n| n * 2 }
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map(&my_proc)
+
+# Test my_inject method by calling multiply_els method
+p multiply_els([2, 4, 5])
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
+
 ```
 
 ## Author
