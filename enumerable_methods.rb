@@ -75,11 +75,20 @@ module Enumerable
 
   def my_map
     return to_enum(:my_map) unless block_given?
+
     new_arr = []
     my_each do |n|
       new_arr << yield(n)
     end
     new_arr
+  end
+
+  def my_inject(acc = nil)
+    acc = self[0] if acc.nil?
+    my_each do |n|
+      acc = yield(acc, n)
+    end
+    acc
   end
 end
 
@@ -113,4 +122,6 @@ p result
 p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
 
 p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
+
+p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
 =end
