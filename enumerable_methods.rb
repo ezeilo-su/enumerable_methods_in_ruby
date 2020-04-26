@@ -110,7 +110,7 @@ def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
 end
 
-#CODE USAGE GOES HERE!
+# CODE USAGE GOES HERE!
 
 # puts "\ntesting my_each method...\n"
 # result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
