@@ -1,6 +1,4 @@
 module Enumerable
-  rubocop: disable
-
   def my_each
     return to_enum(:my_each) unless block_given?
 
@@ -19,7 +17,6 @@ module Enumerable
     end
   end
 
-  rubocop: enable
   def my_select
     return to_enum(:my_select) unless block_given?
 
@@ -113,7 +110,7 @@ def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
 end
 
-# CODE USAGE GOES HERE!
+#CODE USAGE GOES HERE!
 
 # puts "\ntesting my_each method...\n"
 # result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
