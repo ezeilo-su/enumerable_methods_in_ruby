@@ -1,3 +1,4 @@
+rubocop:disable Metrics/ClassLength
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -147,6 +148,8 @@ module Enumerable
     acc
   end
 end
+
+rubocop:enable Metrics/ClassLength
 
 def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
