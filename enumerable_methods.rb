@@ -30,7 +30,7 @@ module Enumerable
     item == arg
   end
 
-  def my_all?(arg = false)
+  def my_all?(arg = nil)
     my_each do |item|
       case block_given?
       when false
@@ -43,7 +43,7 @@ module Enumerable
     true
   end
 
-  def my_any?(arg = false)
+  def my_any?(arg = nil)
     my_each do |item|
       case block_given?
       when false
@@ -56,11 +56,15 @@ module Enumerable
     false
   end
 
-  def my_none?
-    return true if self.class == Array && count.zero?
-    return false if !count.zero? && !block_given?
-    my_each do |n|
-      return false if yield(n)
+  def my_none?(arg = nil)
+    my_each do |item|
+      case block_given?
+      when false
+        return false if !arg && item
+        return false if arg && is_arg?(item, arg)
+      else
+        return false if yield(item)
+      end
     end
     true
   end
@@ -157,10 +161,16 @@ end
 
 # Test my_any? method with at least one truthy value
 # p [false, nil, 2].my_any?(Integer)
+# p [3,4,7,11].my_any?(3)
 
 # puts "\ntesting my_none? method...\n"
 # result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
 # p result
+
+# p [nil, false].my_none? 
+# p [1, 2.5, 'a', 9].my_none?(Integer)
+# p %w[dog door rod blade].my_none?(/z/)
+# p [3,4,7,11].my_none?(3)
 
 # puts "\ntesting my_count method...\n"
 # p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
