@@ -30,6 +30,7 @@ module Enumerable
   def arg?(item, arg)
     return item.is_a? arg if arg.is_a? Class
     return !(item =~ arg).nil? if arg.is_a? Regexp
+
     item == arg
   end
 
