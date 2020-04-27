@@ -107,8 +107,8 @@ module Enumerable
     return to_enum(:my_map) unless block_given?
 
     new_arr = []
-    my_each do |n|
-      my_proc.nil? ? new_arr << yield(n) : new_arr << my_proc.call(n)
+    my_each_with_index do |n, ind|
+      new_arr[ind] = my_proc.nil? ? yield(n) : my_proc.call(n)
     end
     new_arr
   end
