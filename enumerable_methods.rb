@@ -39,7 +39,7 @@ module Enumerable
       case block_given?
       when false
         (return false unless item) unless arg
-        (return false unless is_arg?(item, arg)) if arg
+        (return false unless arg?(item, arg)) if arg
       else
         return false unless yield(item)
       end
