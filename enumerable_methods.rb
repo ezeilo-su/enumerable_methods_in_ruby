@@ -1,7 +1,6 @@
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
-
     for i in self
       yield i
     end
@@ -9,7 +8,6 @@ module Enumerable
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
-
     ind = 0
     for i in self
       yield(i, ind)
@@ -19,7 +17,6 @@ module Enumerable
 
   def my_select
     return to_enum(:my_select) unless block_given?
-
     new_arr = []
     my_each do |n|
       new_arr << n if yield(n)
@@ -27,32 +24,10 @@ module Enumerable
     new_arr
   end
 
-  # def my_all?
-  #   # return true if empty array is passed, regardless of block_given
-  #   return true if self.class == Array && count.zero?
-
-  #   if !count.zero? && !block_given?
-  #     i = 0
-  #     return_val = true
-  #     while i < self.length - 1
-  #       return_val = false
-  #       break unless self[i] == self[i + 1]
-
-  #       return_val = true
-  #       i += 1
-  #     end
-  #     return return_val
-  #   end
-
-  #   my_each do |n|
-  #     return false unless yield(n)
-  #   end
-  #   true
-  # end
-
   def is_arg?(item, arg)
     return item.is_a? arg if arg.is_a? Class
     return !(item =~ arg).nil? if arg.is_a? Regexp
+    item == arg
   end
 
   def my_all?(arg = false)
@@ -72,8 +47,8 @@ module Enumerable
     my_each do |item|
       case block_given?
       when false
-        (return true if item) unless arg
-        (return true if is_arg?(item, arg)) if arg
+        return true if !arg && item
+        return true if arg && is_arg?(item, arg)
       else
         return true if yield(item)
       end
@@ -84,7 +59,6 @@ module Enumerable
   def my_none?
     return true if self.class == Array && count.zero?
     return false if !count.zero? && !block_given?
-
     my_each do |n|
       return false if yield(n)
     end
@@ -123,7 +97,6 @@ module Enumerable
 
   def my_map(&block)
     return to_enum(:my_map) unless block_given?
-
     new_arr = []
     my_each do |n|
       new_arr << block.call(n)
