@@ -99,11 +99,11 @@ module Enumerable
 
   # my_map modified to accept either block or proc (i.e., a named block)
 
-  def my_map(&block)
+  def my_map(my_proc = nil)
     return to_enum(:my_map) unless block_given?
     new_arr = []
     my_each do |n|
-      new_arr << block.call(n)
+      my_proc.nil? ? new_arr << yield(n) : new_arr << my_proc.call(n)
     end
     new_arr
   end
@@ -175,12 +175,11 @@ end
 # puts "\ntesting my_count method...\n"
 # p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
 
+#   Test my_map method for both conditions
 # puts "\ntesting my_map method...\n"
 # p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
-
-# # my_map using proc instead of block
-# my_proc = proc { |n| n * 2 }
-# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map(&my_proc)
+# my_proc = Proc.new {|num| num > 10 }
+# p [18, 22, 5, 6].my_map(my_proc) {|num| num < 10 }
 
 # puts "\ntesting my_inject method...\n"
 # p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
