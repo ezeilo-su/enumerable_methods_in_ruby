@@ -27,12 +27,43 @@ module Enumerable
     new_arr
   end
 
-  def my_all?
-    # return true if empty array is passed, regardless of block_given
-    return true if (self.class == Array && count.zero?) || (!count.zero? && !block_given?)
+  # def my_all?
+  #   # return true if empty array is passed, regardless of block_given
+  #   return true if self.class == Array && count.zero?
 
-    my_each do |n|
-      return false unless yield(n)
+  #   if !count.zero? && !block_given?
+  #     i = 0
+  #     return_val = true
+  #     while i < self.length - 1
+  #       return_val = false
+  #       break unless self[i] == self[i + 1]
+
+  #       return_val = true
+  #       i += 1
+  #     end
+  #     return return_val
+  #   end
+
+  #   my_each do |n|
+  #     return false unless yield(n)
+  #   end
+  #   true
+  # end
+
+  def is_arg?(item, arg)
+    return item.is_a? arg if arg.is_a? Class
+    return !(item =~ arg).nil? if arg.is_a? Regexp
+  end
+
+  def my_all?(arg = false)
+    my_each do |item|
+      case block_given?
+      when false
+        (return false unless item) unless arg
+        (return false unless is_arg?(item, arg)) if arg
+      else
+        return false unless yield(item)
+      end
     end
     true
   end
@@ -127,6 +158,15 @@ end
 # puts "\ntesting my_all? method...\n"
 # result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
 # p result
+
+# Test my_all? with a RegEx object
+# p %w([2 3 4 5 6]).my_all?(/[0-9]/)
+
+# Test my_all? with the Integer Class
+# p [2, 3, 4, 5, 6].my_all?(Integer)
+
+# Test my_all? with the String Class
+# p %w([hello foo baa]).my_all?(String)
 
 # puts "\ntesting my_any? method...\n"
 # result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
