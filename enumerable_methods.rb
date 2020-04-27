@@ -1,7 +1,7 @@
-rubocop:disable Metrics/ClassLength
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
+
     for i in self
       yield i
     end
@@ -9,6 +9,7 @@ module Enumerable
 
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
+
     ind = 0
     for i in self
       yield(i, ind)
@@ -18,6 +19,7 @@ module Enumerable
 
   def my_select
     return to_enum(:my_select) unless block_given?
+
     new_arr = []
     my_each do |n|
       new_arr << n if yield(n)
@@ -25,9 +27,10 @@ module Enumerable
     new_arr
   end
 
-  def is_arg?(item, arg)
+  def arg?(item, arg)
     return item.is_a? arg if arg.is_a? Class
     return !(item =~ arg).nil? if arg.is_a? Regexp
+
     item == arg
   end
 
@@ -102,6 +105,7 @@ module Enumerable
 
   def my_map(my_proc = nil)
     return to_enum(:my_map) unless block_given?
+
     new_arr = []
     my_each do |n|
       my_proc.nil? ? new_arr << yield(n) : new_arr << my_proc.call(n)
@@ -122,34 +126,24 @@ module Enumerable
   end
 
   def my_inject(acc = nil, symbol = nil)
-    # [':+', ':-', ':*', ':/', ':**'].my_any?(acc)
+    # %i[+ - * / ** %].my_any?(acc)
     # ignore any passed block if with both symbol and starting value
     arr = self.to_a
     if acc && symbol
-      arr.my_each do |n|
-        acc = binary_operation(acc, n, symbol)
-      end
-    elsif !block_given? && [:+, :-, :*, :/, :**, :%].my_any?(acc)
+      arr.my_each { |n| acc = binary_operation(acc, n, symbol) }
+    elsif !block_given? && %i[+ - * / ** %].my_any?(acc)
       symbol = acc
       acc = arr[0]
-      arr.drop(1).my_each do |n|
-        acc = binary_operation(acc, n, symbol)
-      end
+      arr.drop(1).my_each { |n| acc = binary_operation(acc, n, symbol) }
     elsif acc
-      arr.my_each do |n|
-        acc = yield(acc, n)
-      end
+      arr.my_each { |n| acc = yield(acc, n) }
     else
       acc = arr[0]
-      arr.drop(1).my_each do |n|
-        acc = yield(acc, n)
-      end
+      arr.drop(1).my_each { |n| acc = yield(acc, n) }
     end
     acc
   end
 end
-
-rubocop:enable Metrics/ClassLength
 
 def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
@@ -201,7 +195,7 @@ end
 # result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
 # p result
 
-# p [nil, false].my_none? 
+# p [nil, false].my_none?
 # p [1, 2.5, 'a', 9].my_none?(Integer)
 # p %w[dog door rod blade].my_none?(/z/)
 # p [3,4,7,11].my_none?(3)
