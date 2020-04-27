@@ -108,10 +108,41 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(acc = nil)
-    acc = self[0] if acc.nil?
-    my_each do |n|
-      acc = yield(acc, n)
+  def binary_operation(acc, num, bin_op)
+    case bin_op
+    when :+ then acc += num
+    when :- then acc -= num
+    when :* then acc *= num
+    when :/ then acc /= num
+    when :** then acc **= num
+    when :% then acc %= num
+    end
+    acc
+  end
+
+  def my_inject(acc = nil, symbol = nil)
+    # [':+', ':-', ':*', ':/', ':**'].my_any?(acc)
+    # ignore any passed block if with both symbol and starting value
+    arr = self.to_a
+    if acc && symbol
+      arr.my_each do |n|
+        acc = binary_operation(acc, n, symbol)
+      end
+    elsif !block_given? && [:+, :-, :*, :/, :**, :%].my_any?(acc)
+      symbol = acc
+      acc = arr[0]
+      arr.drop(1).my_each do |n|
+        acc = binary_operation(acc, n, symbol)
+      end
+    elsif acc
+      arr.my_each do |n|
+        acc = yield(acc, n)
+      end
+    else
+      acc = arr[0]
+      arr.drop(1).my_each do |n|
+        acc = yield(acc, n)
+      end
     end
     acc
   end
@@ -181,7 +212,9 @@ end
 # my_proc = Proc.new {|num| num > 10 }
 # p [18, 22, 5, 6].my_map(my_proc) {|num| num < 10 }
 
+# Test my_inject with different conditions
 # puts "\ntesting my_inject method...\n"
 # p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
-
+# p (1..5).my_inject { |prod, n| prod * n }
+# p [2, 5, 6].my_inject(:+)
 # p multiply_els([2, 4, 5])
