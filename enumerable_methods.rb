@@ -68,12 +68,15 @@ module Enumerable
     true
   end
 
-  def my_any?
-    return false if self.class == Array && count.zero?
-    return true if !count.zero? && !block_given?
-
-    my_each do |n|
-      return true if yield(n)
+  def my_any?(arg = false)
+    my_each do |item|
+      case block_given?
+      when false
+        (return true if item) unless arg
+        (return true if is_arg?(item, arg)) if arg
+      else
+        return true if yield(item)
+      end
     end
     false
   end
@@ -140,6 +143,8 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
 end
+
+p [false, nil].my_any?
 
 # CODE USAGE GOES HERE!
 
