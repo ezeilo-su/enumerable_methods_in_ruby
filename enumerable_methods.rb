@@ -144,8 +144,6 @@ def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
 end
 
-p [false, nil].my_any?
-
 # CODE USAGE GOES HERE!
 
 # puts "\ntesting my_each method...\n"
@@ -180,6 +178,12 @@ p [false, nil].my_any?
 # puts "\ntesting my_any? method...\n"
 # result = [1, 2, 3, 4, 5, 10].any? { |x| x > 10 }
 # p result
+
+# Test my_any? method with all falsy values
+# p [false, nil].my_any?
+
+# Test my_any? method with at least one truthy value
+# p [false, nil, 2].my_any?(Integer)
 
 # puts "\ntesting my_none? method...\n"
 # result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
