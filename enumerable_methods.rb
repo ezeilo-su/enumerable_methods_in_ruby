@@ -90,7 +90,6 @@ module Enumerable
   end
 
   # my_map modified to accept both proc and block
-
   def my_map(my_proc = nil)
     return to_enum(:my_map) unless block_given?
 
