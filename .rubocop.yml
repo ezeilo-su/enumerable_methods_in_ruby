@@ -23,6 +23,9 @@ Metrics/BlockLength:
   ExcludedMethods: ["describe"]
   Max: 30
 
+Naming/PredicateName:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 Style/ClassAndModuleChildren:

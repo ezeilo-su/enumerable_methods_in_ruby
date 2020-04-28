@@ -27,7 +27,7 @@ module Enumerable
     new_arr
   end
 
-  def arg?(item, arg)
+  def is_arg?(item, arg)
     return item.is_a? arg if arg.is_a? Class
     return !(item =~ arg).nil? if arg.is_a? Regexp
 
@@ -39,7 +39,7 @@ module Enumerable
       case block_given?
       when false
         (return false unless item) unless arg
-        (return false unless arg?(item, arg)) if arg
+        (return false unless is_arg?(item, arg)) if arg
       else
         return false unless yield(item)
       end
