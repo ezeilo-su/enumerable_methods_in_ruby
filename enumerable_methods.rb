@@ -89,19 +89,7 @@ module Enumerable
     counter
   end
 
-=begin
-  def my_map
-    return to_enum(:my_map) unless block_given?
-
-    new_arr = []
-    my_each do |n|
-      new_arr << yield(n)
-    end
-    new_arr
-  end
-=end
-
-  # my_map modified to accept either block or proc (i.e., a named block)
+  # my_map modified to accept both proc and block
 
   def my_map(my_proc = nil)
     return to_enum(:my_map) unless block_given?
@@ -113,28 +101,15 @@ module Enumerable
     new_arr
   end
 
-  def binary_operation(acc, num, bin_op)
-    case bin_op
-    when :+ then acc += num
-    when :- then acc -= num
-    when :* then acc *= num
-    when :/ then acc /= num
-    when :** then acc **= num
-    when :% then acc %= num
-    end
-    acc
-  end
-
   def my_inject(acc = nil, symbol = nil)
-    # %i[+ - * / ** %].my_any?(acc)
     # ignore any passed block if with both symbol and starting value
     arr = self.to_a
     if acc && symbol
-      arr.my_each { |n| acc = binary_operation(acc, n, symbol) }
-    elsif !block_given? && %i[+ - * / ** %].my_any?(acc)
+      arr.my_each { |n| acc = acc.send(symbol, n) }
+    elsif acc && !block_given?
       symbol = acc
       acc = arr[0]
-      arr.drop(1).my_each { |n| acc = binary_operation(acc, n, symbol) }
+      arr.drop(1).my_each { |n| acc = acc.send(symbol, n) }
     elsif acc
       arr.my_each { |n| acc = yield(acc, n) }
     else
@@ -148,70 +123,3 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |result_memo, n| result_memo * n }
 end
-
-# CODE USAGE GOES HERE!
-
-# puts "\ntesting my_each method...\n"
-# result = ({ firstName: 'Sunday', lastName: 'Ezeilo' }.my_each { |name, val| puts "#{name}: #{val}" })
-# p result
-
-# puts "\ntesting my_each_with_index method...\n"
-# result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_each_with_index { |elm, ind| puts "index_#{ind}: #{elm}" }
-# p result
-
-# puts "\ntesting my_select method...\n"
-# result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_select { |elm| elm % 2 == 0 }
-# p result
-
-# puts "\ntesting my_all? method...\n"
-# result = [1, 2, 3, 4, 5, 10].my_all? { |x| x < 10 }
-# p result
-
-# Test my_all? with a RegEx object
-# p %w([2 3 4 5 6]).my_all?(/[0-9]/)
-
-# Test my_all? with the Integer Class
-# p [2, 3, 4, 5, 6].my_all?(Integer)
-
-# Test my_all? with the String Class
-# p %w([hello foo baa]).my_all?(String)
-
-# puts "\ntesting my_any? method...\n"
-# result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].my_any? { |n| n < 1 }
-# p result
-
-# puts "\ntesting my_any? method...\n"
-# result = [1, 2, 3, 4, 5, 10].any? { |x| x > 10 }
-# p result
-
-# Test my_any? method with all falsy values
-# p [false, nil].my_any?
-
-# Test my_any? method with at least one truthy value
-# p [false, nil, 2].my_any?(Integer)
-# p [3,4,7,11].my_any?(3)
-
-# puts "\ntesting my_none? method...\n"
-# result = [1, 2, 3, 4, 5, 10].my_none? { |x| x > 10 }
-# p result
-
-# p [nil, false].my_none?
-# p [1, 2.5, 'a', 9].my_none?(Integer)
-# p %w[dog door rod blade].my_none?(/z/)
-# p [3,4,7,11].my_none?(3)
-
-# puts "\ntesting my_count method...\n"
-# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_count { |n| n % 2 == 0 }
-
-#   Test my_map method for both conditions
-# puts "\ntesting my_map method...\n"
-# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_map { |n| n*2 }
-# my_proc = Proc.new {|num| num > 10 }
-# p [18, 22, 5, 6].my_map(my_proc) {|num| num < 10 }
-
-# Test my_inject with different conditions
-# puts "\ntesting my_inject method...\n"
-# p [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].my_inject(4) { |result_memo, n| result_memo + n }
-# p (1..5).my_inject { |prod, n| prod * n }
-# p [2, 5, 6].my_inject(:+)
-# p multiply_els([2, 4, 5])
