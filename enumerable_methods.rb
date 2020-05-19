@@ -1,6 +1,6 @@
 module Enumerable
   def my_each
-    return to_enum(:my_each) unless block_given?
+    return self.to_enum unless block_given?
 
     for i in self
       yield i
@@ -8,7 +8,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    return to_enum(:my_each_with_index) unless block_given?
+    return self.to_enum unless block_given?
 
     ind = 0
     for i in self
@@ -18,7 +18,7 @@ module Enumerable
   end
 
   def my_select
-    return to_enum(:my_select) unless block_given?
+    return self.to_enum unless block_given?
 
     new_arr = []
     my_each do |n|
