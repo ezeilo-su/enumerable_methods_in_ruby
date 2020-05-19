@@ -176,5 +176,47 @@ describe Enumerable do
         expect(example_range.my_none?).to eql(example_range.none?)
       end
     end
-  end  
+  end
+
+  describe "#my_count" do
+    context "when called with only a block" do
+      it "returns the number of elements in the array for which the given block yields true" do
+        expect(example_array.my_count { test_block }).to eql(example_array.count{test_block})
+      end
+
+      it "returns the number of elements in the range for which the given block yields true" do
+        expect(example_range.my_count { test_block }).to eql(example_range.count{test_block})
+      end
+    end
+
+    context "when called with only an argument" do
+      it "returns the number of elements in the array that equals the given argument" do
+        expect(example_array.my_count(rand_num)).to eql(example_array.count(rand_num))
+      end
+
+      it "returns the number of elements in the range that equals the given argument" do
+        expect(example_range.my_count(rand_num)).to eql(example_range.count(rand_num))
+      end
+    end
+
+    context "when called with a block and an argument" do
+      it "neglects the block and use the argument" do
+        expect(example_array.my_count(rand_num) {test_block}).to eql(example_array.count(rand_num) {test_block})
+      end
+
+      it "neglects the block and use the argument" do
+        expect(example_range.my_count(rand_num) {test_block}).to eql(example_range.count(rand_num) {test_block})
+      end
+    end
+
+    context "when called with no block and no argument" do
+      it "returns the number of elements in the array" do
+        expect(example_array.my_count).to eql(example_array.count)
+      end
+
+      it "returns the number of elements in the range" do
+        expect(example_range.my_count).to eql(example_range.count)
+      end
+    end
+  end
 end
