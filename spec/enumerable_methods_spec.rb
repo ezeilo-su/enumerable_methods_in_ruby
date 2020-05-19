@@ -219,4 +219,37 @@ describe Enumerable do
       end
     end
   end
+
+  describe "#my_map" do
+    context "when called with a block" do
+      it "returns an array when called on array" do
+        expect(example_array.my_map { test_block }).to eql(example_array.map { test_block })
+      end
+
+      it "returns an range when called on a range" do
+        expect(example_range.my_map { test_block }).to eql(example_range.map { test_block })
+      end
+    end
+
+    context "when called without a block" do
+      it "returns an array enumerator when called on an array without a block" do
+        expect(example_array.my_map.class).to eql(example_array.map.class)
+      end
+
+      it "returns a range enumerator when called on a range without a block" do
+        expect(example_range.my_map.class).to eql(example_range.map.class)
+      end
+    end
+
+    context "when called with a block and an argument" do
+      let(:my_proc) {proc {|x| x * 2}}
+      it "returns an array when called on array, ignores the block and use the argument" do
+        expect(example_array.my_map(my_proc) { test_block }).to eql(example_array.map(&my_proc))
+      end
+
+      it "returns a range when called on a range, ignores the block and use the argument" do
+        expect(example_range.my_map(my_proc) { test_block }).to eql(range.map(&my_proc))
+      end
+    end
+  end  
 end
