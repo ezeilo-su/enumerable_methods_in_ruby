@@ -27,5 +27,28 @@ describe Enumerable do
         expect(example_range.my_each.class).to eql(example_range.each.class)
       end
     end
+
+  end
+
+  describe "#my_select" do
+    context "when called with a block" do
+      it "returns an array of values that yield true when called on array" do
+        expect(example_array.my_select { test_block }).to eql(example_array.select{test_block})
+      end
+
+      it "returns an array of values that yield true when called on a range" do
+        expect(example_range.my_select { test_block }).to eql(example_range.select{test_block})
+      end
+    end
+
+    context "when called without a block" do
+      it "returns an array enumerator when called on an array without a block" do
+        expect(example_array.my_select.class).to eql(example_array.select.class)
+      end
+
+      it "returns a range enumerator when called on a range without a block" do
+        expect(example_range.my_select.class).to eql(example_range.select.class)
+      end
+    end
   end  
 end
