@@ -27,19 +27,12 @@ module Enumerable
     new_arr
   end
 
-  def is_arg?(item, arg)
-    return item.is_a? arg if arg.is_a? Class
-    return !(item =~ arg).nil? if arg.is_a? Regexp
-
-    item == arg
-  end
-
   def my_all?(arg = nil)
     my_each do |item|
       case block_given?
       when false
         (return false unless item) unless arg
-        (return false unless is_arg?(item, arg)) if arg
+        (return false unless arg === item) if arg
       else
         return false unless yield(item)
       end
@@ -52,7 +45,7 @@ module Enumerable
       case block_given?
       when false
         return true if !arg && item
-        return true if arg && is_arg?(item, arg)
+        return true if arg && (arg === item)
       else
         return true if yield(item)
       end
@@ -65,7 +58,7 @@ module Enumerable
       case block_given?
       when false
         return false if !arg && item
-        return false if arg && is_arg?(item, arg)
+        return false if arg && (arg === item)
       else
         return false if yield(item)
       end
