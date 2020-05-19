@@ -92,5 +92,47 @@ describe Enumerable do
         expect(example_range.my_all?).to eql(example_range.all?)
       end
     end
-  end  
+  end
+  
+  describe "#my_any?" do
+    context "when called with only a block" do
+      it "returns true if any elements in the array yield true; otherwise, false" do
+        expect(example_array.my_any? { test_block }).to eql(example_array.any?{test_block})
+      end
+
+      it "returns true if any elements in the range yield true; otherwise, false" do
+        expect(example_range.my_any? { test_block }).to eql(example_range.any?{test_block})
+      end
+    end
+
+    context "when called with only an argument" do
+      it "returns true if the argument equals any the elements in the array; otherwise, false" do
+        expect(example_array.my_any?(rand_num)).to eql(example_array.any?(rand_num))
+      end
+
+      it "returns true if the argument equals any the elements in the range; otherwise, false" do
+        expect(example_range.my_any?(rand_num)).to eql(example_range.any?(rand_num))
+      end
+    end
+
+    context "when called with a block and an argument" do
+      it "neglects the block and use the argument" do
+        expect(example_array.my_any?(rand_num) {test_block}).to eql(example_array.any?(rand_num) {test_block})
+      end
+
+      it "neglects the block and use the argument" do
+        expect(example_range.my_any?(rand_num) {test_block}).to eql(example_range.any?(rand_num) {test_block})
+      end
+    end
+
+    context "when called with no block and no argument" do
+      it "returns true if any element of the array are truthy; otherwise, false" do
+        expect(example_array.my_any?).to eql(example_array.any?)
+      end
+
+      it "returns true if any element in the range are truthy; otherwise, false" do
+        expect(example_range.my_any?).to eql(example_range.any?)
+      end
+    end
+  end
 end
