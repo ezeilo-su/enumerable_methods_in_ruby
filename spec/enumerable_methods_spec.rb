@@ -248,7 +248,7 @@ describe Enumerable do
       end
 
       it "returns a range when called on a range, ignores the block and use the argument" do
-        expect(example_range.my_map(my_proc) { test_block }).to eql(range.map(&my_proc))
+        expect(example_range.my_map(my_proc) { test_block }).to eql(example_range.map(&my_proc))
       end
     end
   end  
