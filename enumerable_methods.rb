@@ -29,10 +29,10 @@ module Enumerable
 
   def my_all?(arg = nil)
     my_each do |item|
-      case block_given?
-      when false
-        (return false unless item) unless arg
-        (return false unless arg === item) if arg
+      if arg
+        return false unless arg === item
+      elsif !block_given? 
+        return false unless item             
       else
         return false unless yield(item)
       end
@@ -42,10 +42,10 @@ module Enumerable
 
   def my_any?(arg = nil)
     my_each do |item|
-      case block_given?
-      when false
-        return true if !arg && item
-        return true if arg && (arg === item)
+      if arg
+        return true if arg === item
+      elsif !block_given? 
+        return true if item             
       else
         return true if yield(item)
       end
@@ -55,10 +55,10 @@ module Enumerable
 
   def my_none?(arg = nil)
     my_each do |item|
-      case block_given?
-      when false
-        return false if !arg && item
-        return false if arg && (arg === item)
+      if arg
+        return false if arg === item
+      elsif !block_given? 
+        return false if item             
       else
         return false if yield(item)
       end
@@ -68,7 +68,7 @@ module Enumerable
 
   def my_count(arg = nil)
     counter = 0
-    if !arg.nil?
+    if arg
       my_each do |n|
         counter += 1 if n == arg
       end
@@ -77,9 +77,9 @@ module Enumerable
         counter += 1 if yield(n)
       end
     else
-      counter = self.length
+      counter = self.to_a.length
     end
-    counter
+    counter    
   end
 
   # my_map modified to accept both proc and block
