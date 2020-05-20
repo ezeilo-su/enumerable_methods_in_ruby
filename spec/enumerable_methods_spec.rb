@@ -112,6 +112,16 @@ describe Enumerable do
         expect(example_range.my_all?).to eql(example_range.all?)
       end
     end
+
+    context 'when invoked with a RegEx argument' do
+      it 'should return true if all elements match with a RegEx' do
+        expect(['a', 'a', 'a', 'a'].my_all?(/a/)).to eql(true)
+      end
+
+      it 'should not return true if all array elements do not match with a RegEx ' do
+        expect(['a', 2, 3, 'd'].my_all?(/d/)).not_to eql(true)
+      end
+    end  
   end
 
   describe '#my_any?' do
