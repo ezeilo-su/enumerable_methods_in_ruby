@@ -31,8 +31,8 @@ module Enumerable
     my_each do |item|
       if arg
         return false unless arg === item
-      elsif !block_given? 
-        return false unless item             
+      elsif !block_given?
+        return false unless item
       else
         return false unless yield(item)
       end
@@ -44,10 +44,10 @@ module Enumerable
     my_each do |item|
       if arg
         return true if arg === item
-      elsif !block_given? 
-        return true if item             
-      else
-        return true if yield(item)
+      elsif !block_given?
+        return true if item
+      elsif yield(item)
+        return true
       end
     end
     false
@@ -57,10 +57,10 @@ module Enumerable
     my_each do |item|
       if arg
         return false if arg === item
-      elsif !block_given? 
-        return false if item             
-      else
-        return false if yield(item)
+      elsif !block_given?
+        return false if item
+      elsif yield(item)
+        return false
       end
     end
     true
@@ -79,7 +79,7 @@ module Enumerable
     else
       counter = self.to_a.length
     end
-    counter    
+    counter
   end
 
   # my_map modified to accept both proc and block
