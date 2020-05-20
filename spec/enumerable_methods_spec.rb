@@ -28,6 +28,28 @@ describe Enumerable do
     end
   end
 
+  describe '#my_each_with_index' do
+    context 'when called with a block' do
+      it 'returns an array when called on array' do
+        expect(example_array.my_each_with_index { test_block }).to eql(example_array.each_with_index { test_block })
+      end
+
+      it 'returns an range when called on a range' do
+        expect(example_range.my_each_with_index { test_block }).to eql(example_range.each_with_index { test_block })
+      end
+    end
+
+    context 'when called without a block' do
+      it 'returns an array enumerator when called on an array' do
+        expect(example_array.my_each_with_index.class).to eql(example_array.each_with_index.class)
+      end
+
+      it 'returns a range enumerator when called on a range' do
+        expect(example_range.my_each_with_index.class).to eql(example_range.each_with_index.class)
+      end
+    end
+  end
+
   describe '#my_select' do
     context 'when called with a block' do
       it 'returns an array of values that yield true when called on array' do
@@ -247,6 +269,52 @@ describe Enumerable do
 
       it 'returns a range when called on a range, ignores the block and use the argument' do
         expect(example_range.my_map(my_proc) { test_block }).to eql(example_range.map(&my_proc))
+      end
+    end
+  end
+
+  describe '#my_inject' do
+    context 'when called with a symbol but without an accumulator' do
+      it 'returns the computed result when called on an array' do
+        expect(example_array.my_inject(:+)).to eql(example_array.inject(:+))
+      end
+
+      it 'returns the computed result when called on a range' do
+        expect(example_range.my_inject(:+)).to eql(example_range.inject(:+))
+      end
+    end
+
+    context 'when called with an accumulator and a symbol' do
+      it 'returns the computed result when called on an array' do
+        expect(example_array.my_inject(rand_num, :+)).to eql(example_array.inject(rand_num, :+))
+      end
+
+      it 'returns the computed result when called on a range' do
+        expect(example_range.my_inject(rand_num, :+)).to eql(example_range.inject(rand_num, :+))
+      end
+    end
+
+    context 'when called with a block and no accumulator' do
+      let(:block) { proc { |acc, n| acc + n } }
+
+      it 'returns the computed result when called on an array' do
+        expect(example_array.my_inject { block }).to eql(example_array.inject { block })
+      end
+
+      it 'returns the computed result when called on a range' do
+        expect(example_range.my_inject { block }).to eql(example_range.inject { block })
+      end
+    end
+
+    context 'when called with a block and an accumulator' do
+      let(:block) { proc { |acc, n| acc + n } }
+
+      it 'returns the computed result when called on an array' do
+        expect(example_array.my_inject(rand_num) { block }).to eql(example_array.inject(rand_num) { block })
+      end
+
+      it 'returns the computed result when called on a range' do
+        expect(example_range.my_inject(rand_num) { block }).to eql(example_range.inject(rand_num) { block })
       end
     end
   end
