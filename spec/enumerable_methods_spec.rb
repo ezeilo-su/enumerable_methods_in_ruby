@@ -320,11 +320,11 @@ describe Enumerable do
 
     context 'when invoked without a block' do
       it 'raises an error when invoked on an array' do
-        expect { example_array.my_inject }.to raise_error(LocalJumpError)
+        expect { example_array.my_inject }.to raise_error(LocalJumpError, "no block given (yield)")
       end
 
       it 'raises an error when invoked on a range' do
-        expect { example_range.my_inject }.to raise_error(LocalJumpError)
+        expect { example_range.my_inject }.to raise_error(LocalJumpError, "no block given (yield)")
       end
     end
   end
