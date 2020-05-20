@@ -114,8 +114,8 @@ describe Enumerable do
     end
 
     context 'when invoked with a RegEx argument' do
-      it 'should return true if all elements match with a RegEx' do
-        expect(%w[a a a a].my_all?(/a/)).to eql(true)
+      it 'should return true when array elements are all Regexp object' do
+        expect([/a/, /b/, /1/, /2/].my_all?(Regexp)).to eql(true)
       end
 
       it 'should not return true if all array elements do not match with a RegEx ' do
@@ -160,18 +160,18 @@ describe Enumerable do
         expect(example_array.my_any?).to eql(example_array.any?)
       end
 
-      it 'returns true if any element in the range are truthy; otherwise, false' do
+      it 'returns true when any element in the range are truthy; otherwise, false' do
         expect(example_range.my_any?).to eql(example_range.any?)
       end
     end
 
     context 'when invoked with a RegEx argument' do
-      it 'should return true if there is at least a match with RegEx' do
+      it 'should return true when there is at least a match with RegEx' do
         expect([1, 2, 'd'].my_any?(/d/)).to eql(true)
       end
 
-      it 'should not return true if there is no match with RegEx ' do
-        expect([1, 2, 3].my_any?(/d/)).not_to eql(true)
+      it 'should not return true if there is no any Regexp object in the array' do
+        expect([1, 2, 3].my_any?(Regexp)).not_to eql(true)
       end
     end
   end
@@ -222,8 +222,8 @@ describe Enumerable do
         expect([1, 2, 3].my_none?(/d/)).to eql(true)
       end
 
-      it 'should not return true when there is at least a match with a RegEx ' do
-        expect(['1', 2, '3'].my_none?(/3/)).not_to eql(true)
+      it 'should not return true when there is at least one Regexp object in the array' do
+        expect(['a', 'b', /1/, /2/].my_none?(Regexp)).not_to eql(true)
       end
     end
   end
