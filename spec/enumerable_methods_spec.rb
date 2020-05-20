@@ -216,6 +216,16 @@ describe Enumerable do
         expect(example_range.my_none?).to eql(example_range.none?)
       end
     end
+
+    context 'when invoked with a RegEx argument' do
+      it 'should return true when there is no match with a RegEx' do
+        expect([1, 2, 3].my_none?(/d/)).to eql(true)
+      end
+
+      it 'should not return true when there is at least a match with a RegEx ' do
+        expect(['1', 2, '3'].my_none?(/3/)).not_to eql(true)
+      end
+    end 
   end
 
   describe '#my_count' do
