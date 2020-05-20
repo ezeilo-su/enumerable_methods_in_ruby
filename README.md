@@ -4,7 +4,13 @@
 
 > The project description can be found [here](https://github.com/TheOdinProject/curriculum/blob/master/ruby_programming/archive/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods).
 
-## Project Screenshots here:
+## Automated Test Case
+- Test automation provided for this project is based on RSpec tool. The test cases are found in the 'enumerable_methods_spec.rb' file which resides in 'spec' folder, a sub folder in the project directory.
+- To run the test cases, open your terminal and navigate to the aboved mentioned directory.
+- ToRun the 'enumerable_methods_spec.rb' file by typing the following:
+- rspec enumerable_methods_spec.rb from the specific directory
+- Hit 'Enter' key on the keyboard
+- When the available test cases are evaluated, corresponding messages are retured.
 
 ## Built With
 
