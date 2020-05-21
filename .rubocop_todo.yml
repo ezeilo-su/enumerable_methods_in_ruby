@@ -10,7 +10,7 @@
 # Cop supports --auto-correct.
 Style/BlockComments:
   Exclude:
-    - 'enumerable_methods.rb'
+    - "enumerable_methods.rb"
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -25,10 +25,10 @@ Style/For:
 # SupportedStyles: always, always_true, never
 Style/FrozenStringLiteralComment:
   Exclude:
-    - 'Gemfile'
+    - "Gemfile"
 
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
-    - 'enumerable_methods.rb'
+    - "enumerable_methods.rb"

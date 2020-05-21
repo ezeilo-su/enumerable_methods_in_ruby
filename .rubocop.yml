@@ -7,9 +7,12 @@ AllCops:
     - "Rakefile"
 
   DisplayCopNames: true
-
+Metrics/CyclomaticComplexity:
+  Max: 20
+Metrics/ModuleLength:
+  Max: 300
 Layout/LineLength:
-  Max: 120
+  Max: 200
 Metrics/MethodLength:
   Max: 20
 Metrics/AbcSize:
@@ -20,6 +23,11 @@ Metrics/BlockLength:
   ExcludedMethods: ["describe"]
   Max: 30
 
+Naming/PredicateName:
+  Enabled: false
+
+Style/CaseEquality: 
+  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/ClassAndModuleChildren:
