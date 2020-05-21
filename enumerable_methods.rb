@@ -1,6 +1,6 @@
 module Enumerable
   def my_each
-    return to_enum(:my_each) unless block_given?
+    return self.to_enum unless block_given?
 
     for i in self
       yield i
@@ -8,7 +8,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    return to_enum(:my_each_with_index) unless block_given?
+    return self.to_enum unless block_given?
 
     ind = 0
     for i in self
@@ -18,7 +18,7 @@ module Enumerable
   end
 
   def my_select
-    return to_enum(:my_select) unless block_given?
+    return self.to_enum unless block_given?
 
     new_arr = []
     my_each do |n|
@@ -27,19 +27,12 @@ module Enumerable
     new_arr
   end
 
-  def is_arg?(item, arg)
-    return item.is_a? arg if arg.is_a? Class
-    return !(item =~ arg).nil? if arg.is_a? Regexp
-
-    item == arg
-  end
-
   def my_all?(arg = nil)
     my_each do |item|
-      case block_given?
-      when false
-        (return false unless item) unless arg
-        (return false unless is_arg?(item, arg)) if arg
+      if arg
+        return false unless arg === item
+      elsif !block_given?
+        return false unless item
       else
         return false unless yield(item)
       end
@@ -49,12 +42,12 @@ module Enumerable
 
   def my_any?(arg = nil)
     my_each do |item|
-      case block_given?
-      when false
-        return true if !arg && item
-        return true if arg && is_arg?(item, arg)
-      else
-        return true if yield(item)
+      if arg
+        return true if arg === item
+      elsif !block_given?
+        return true if item
+      elsif yield(item)
+        return true
       end
     end
     false
@@ -62,12 +55,12 @@ module Enumerable
 
   def my_none?(arg = nil)
     my_each do |item|
-      case block_given?
-      when false
-        return false if !arg && item
-        return false if arg && is_arg?(item, arg)
-      else
-        return false if yield(item)
+      if arg
+        return false if arg === item
+      elsif !block_given?
+        return false if item
+      elsif yield(item)
+        return false
       end
     end
     true
@@ -75,7 +68,7 @@ module Enumerable
 
   def my_count(arg = nil)
     counter = 0
-    if !arg.nil?
+    if arg
       my_each do |n|
         counter += 1 if n == arg
       end
@@ -84,7 +77,7 @@ module Enumerable
         counter += 1 if yield(n)
       end
     else
-      counter = self.length
+      counter = self.to_a.length
     end
     counter
   end
