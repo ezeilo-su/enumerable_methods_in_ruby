@@ -3,17 +3,17 @@ require_relative '../enumerable_methods.rb'
 describe Enumerable do
   let(:example_array) { [2, 4, 6, 8] }
   let(:example_range) { (1...5) }
-  let(:rand_num) { rand(5) }
+  let(:rand_num) { 2 }
   let(:test_block) { proc { |element| element.even? } }
 
   describe '#my_each' do
     context 'when invoked with a block' do
       it 'returns an array when invoked on array' do
-        expect(example_array.my_each { test_block }).to eql(example_array.each { test_block })
+        expect(example_array.my_each(&test_block)).to eql(example_array)
       end
 
       it 'returns an range when invoked on a range' do
-        expect(example_range.my_each { test_block }).to eql(example_range.each { test_block })
+        expect(example_range.my_each(&test_block)).to eql(example_range)
       end
     end
 
@@ -31,11 +31,11 @@ describe Enumerable do
   describe '#my_each_with_index' do
     context 'when invoked with a block' do
       it 'returns an array when invoked on array' do
-        expect(example_array.my_each_with_index { test_block }).to eql(example_array.each_with_index { test_block })
+        expect(example_array.my_each_with_index(&test_block)).to eql(example_array)
       end
 
       it 'returns an range when invoked on a range' do
-        expect(example_range.my_each_with_index { test_block }).to eql(example_range.each_with_index { test_block })
+        expect(example_range.my_each_with_index(&test_block)).to eql(example_range)
       end
     end
 
@@ -53,11 +53,11 @@ describe Enumerable do
   describe '#my_select' do
     context 'when invoked with a block' do
       it 'returns an array of values that yield true when invoked on array' do
-        expect(example_array.my_select { test_block }).to eql(example_array.select { test_block })
+        expect(example_array.my_select(&test_block)).to eql(example_array.select(&test_block))
       end
 
       it 'returns an array of values that yield true when invoked on a range' do
-        expect(example_range.my_select { test_block }).to eql(example_range.select { test_block })
+        expect(example_range.my_select(&test_block)).to eql(example_range.select(&test_block))
       end
     end
 
@@ -75,11 +75,11 @@ describe Enumerable do
   describe '#my_all?' do
     context 'when invoked with only a block' do
       it 'returns true if all elements in the array yield true; otherwise, false' do
-        expect(example_array.my_all? { test_block }).to eql(example_array.all? { test_block })
+        expect(example_array.my_all?(&test_block)).to eql(example_array.all?(&test_block))
       end
 
       it 'returns true if all elements in the range yield true; otherwise, false' do
-        expect(example_range.my_all? { test_block }).to eql(example_range.all? { test_block })
+        expect(example_range.my_all?(&test_block)).to eql(example_range.all?(&test_block))
       end
     end
 
@@ -95,11 +95,11 @@ describe Enumerable do
 
     context 'when invoked with a block and an argument' do
       it 'neglects the block and use the argument' do
-        expect(example_array.my_all?(rand_num) { test_block }).to eql(example_array.all?(rand_num) { test_block })
+        expect(example_array.my_all?(rand_num, &:test_block)).to eql(example_array.all?(rand_num, &:test_block))
       end
 
       it 'neglects the block and use the argument' do
-        expect(example_range.my_all?(rand_num) { test_block }).to eql(example_range.all?(rand_num) { test_block })
+        expect(example_range.my_all?(rand_num, &:test_block)).to eql(example_range.all?(rand_num, &:test_block))
       end
     end
 
@@ -127,11 +127,11 @@ describe Enumerable do
   describe '#my_any?' do
     context 'when invoked with only a block' do
       it 'returns true if any elements in the array yield true; otherwise, false' do
-        expect(example_array.my_any? { test_block }).to eql(example_array.any? { test_block })
+        expect(example_array.my_any?(test_block)).to eql(example_array.any?(test_block))
       end
 
       it 'returns true if any elements in the range yield true; otherwise, false' do
-        expect(example_range.my_any? { test_block }).to eql(example_range.any? { test_block })
+        expect(example_range.my_any?(test_block)).to eql(example_range.any?(test_block))
       end
     end
 
@@ -147,11 +147,11 @@ describe Enumerable do
 
     context 'when invoked with a block and an argument' do
       it 'neglects the block and use the argument' do
-        expect(example_array.my_any?(rand_num) { test_block }).to eql(example_array.any?(rand_num) { test_block })
+        expect(example_array.my_any?(rand_num, &:test_block)).to eql(example_array.any?(rand_num, &:test_block))
       end
 
       it 'neglects the block and use the argument' do
-        expect(example_range.my_any?(rand_num) { test_block }).to eql(example_range.any?(rand_num) { test_block })
+        expect(example_range.my_any?(rand_num, &:test_block)).to eql(example_range.any?(rand_num, &:test_block))
       end
     end
 
@@ -179,11 +179,11 @@ describe Enumerable do
   describe '#my_none?' do
     context 'when invoked with only a block' do
       it 'returns true if no elements in the array yield true; otherwise, false' do
-        expect(example_array.my_none? { test_block }).to eql(example_array.none? { test_block })
+        expect(example_array.my_none?(&test_block)).to eql(example_array.none?(&test_block))
       end
 
       it 'returns true if no elements in the range yield true; otherwise, false' do
-        expect(example_range.my_none? { test_block }).to eql(example_range.none? { test_block })
+        expect(example_range.my_none?(&test_block)).to eql(example_range.none?(&test_block))
       end
     end
 
@@ -199,11 +199,11 @@ describe Enumerable do
 
     context 'when invoked with a block and an argument' do
       it 'neglects the block and use the argument' do
-        expect(example_array.my_none?(rand_num) { test_block }).to eql(example_array.none?(rand_num) { test_block })
+        expect(example_array.my_none?(rand_num, &:test_block)).to eql(example_array.none?(rand_num, &:test_block))
       end
 
       it 'neglects the block and use the argument' do
-        expect(example_range.my_none?(rand_num) { test_block }).to eql(example_range.none?(rand_num) { test_block })
+        expect(example_range.my_none?(rand_num, &:test_block)).to eql(example_range.none?(rand_num, &:test_block))
       end
     end
 
@@ -231,11 +231,11 @@ describe Enumerable do
   describe '#my_count' do
     context 'when invoked with only a block' do
       it 'returns the number of elements in the array for which the given block yields true' do
-        expect(example_array.my_count { test_block }).to eql(example_array.count { test_block })
+        expect(example_array.my_count(&test_block)).to eql(example_array.count(&test_block))
       end
 
       it 'returns the number of elements in the range for which the given block yields true' do
-        expect(example_range.my_count { test_block }).to eql(example_range.count { test_block })
+        expect(example_range.my_count(&test_block)).to eql(example_range.count(&test_block))
       end
     end
 
@@ -251,11 +251,11 @@ describe Enumerable do
 
     context 'when invoked with a block and an argument' do
       it 'neglects the block and use the argument' do
-        expect(example_array.my_count(rand_num) { test_block }).to eql(example_array.count(rand_num) { test_block })
+        expect(example_array.my_count(rand_num, &:test_block)).to eql(example_array.count(rand_num, &:test_block))
       end
 
       it 'neglects the block and use the argument' do
-        expect(example_range.my_count(rand_num) { test_block }).to eql(example_range.count(rand_num) { test_block })
+        expect(example_range.my_count(rand_num, &:test_block)).to eql(example_range.count(rand_num, &:test_block))
       end
     end
 
@@ -273,11 +273,11 @@ describe Enumerable do
   describe '#my_map' do
     context 'when invoked with a block' do
       it 'returns an array when invoked on array' do
-        expect(example_array.my_map { test_block }).to eql(example_array.map { test_block })
+        expect(example_array.my_map(&test_block)).to eql(example_array.map(&test_block))
       end
 
       it 'returns an range when invoked on a range' do
-        expect(example_range.my_map { test_block }).to eql(example_range.map { test_block })
+        expect(example_range.my_map(&test_block)).to eql(example_range.map(&test_block))
       end
     end
 
@@ -294,11 +294,11 @@ describe Enumerable do
     context 'when invoked with a block and an argument' do
       let(:my_proc) { proc { |x| x * 2 } }
       it 'returns an array when invoked on array, ignores the block and use the argument' do
-        expect(example_array.my_map(my_proc) { test_block }).to eql(example_array.map(&my_proc))
+        expect(example_array.my_map(my_proc, &:test_block)).to eql(example_array.map(&my_proc))
       end
 
       it 'returns a range when invoked on a range, ignores the block and use the argument' do
-        expect(example_range.my_map(my_proc) { test_block }).to eql(example_range.map(&my_proc))
+        expect(example_range.my_map(my_proc, &:test_block)).to eql(example_range.map(&my_proc))
       end
     end
   end
